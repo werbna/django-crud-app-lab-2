@@ -1,5 +1,6 @@
 from django.db import models # type: ignore
 from django.contrib.auth.models import User # type: ignore
+from django.urls.base import reverse # type: ignore
 
 def user_directory_path(instance, filename):
 		# file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
@@ -19,4 +20,8 @@ class Recipe(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-						return self.name
+        return self.name
+      
+    def get_absolute_url(self):
+        return reverse('recipe_detail', kwargs={'recipe_id': self.id})
+    

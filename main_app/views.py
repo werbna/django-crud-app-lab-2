@@ -1,5 +1,5 @@
 from django.shortcuts import render # type: ignore
-from django.views.generic.edit import CreateView # type: ignore
+from django.views.generic.edit import CreateView, UpdateView, DeleteView # type: ignore
 from .models import Recipe # type: ignore
 
 # Create your views here.
@@ -20,7 +20,16 @@ def recipe_detail(req, recipe_id):
 class RecipeCreate(CreateView):
     model = Recipe
     fields = '__all__'
+    success_url = '/recipes/'
     
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+class RecipeUpdate(UpdateView):
+    model = Recipe
+    fields = '__all__'
+    
+class RecipeDelete(DeleteView):
+    model = Recipe
+    success_url = '/recipes/'

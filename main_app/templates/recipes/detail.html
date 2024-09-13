@@ -18,4 +18,8 @@
   <p><strong>Created At:</strong> {{ recipe.created_at }}</p>
   <p><strong>Updated At:</strong> {{ recipe.updated_at }}</p>
 
+  <div class='recipe-actions'>
+    <a href="{% url 'recipe_update' recipe.id  %}" class='btn warn'>Edit</a>
+    <a href="{% url 'recipe_delete' recipe.id  %}" class='btn danger'>Delete</a>
+  </div>
 {% endblock %}
