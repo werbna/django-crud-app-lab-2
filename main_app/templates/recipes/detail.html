@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/recipes/recipes-detail.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <h1>{{ recipe.name }}</h1>
+
+  <p><strong>Description:</strong> {{ recipe.description }}</p>
+  <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+  <p><strong>Prep Time:</strong> {{ recipe.prep_time }}</p>
+  <p><strong>Cook Time:</strong> {{ recipe.cook_time }}</p>
+  <p><strong>Instructions:</strong> {{ recipe.instructions }}</p>
+  <p><strong>Servings:</strong> {{ recipe.servings }}</p>
+  <p><strong>Image:</strong> <img src="{{ recipe.imageurl }}" alt="{{ recipe.name }}"></p>
+  <p><strong>Created By:</strong> {{ recipe.user.username }}</p>
+  <p><strong>Created At:</strong> {{ recipe.created_at }}</p>
+  <p><strong>Updated At:</strong> {{ recipe.updated_at }}</p>
+
+{% endblock %}

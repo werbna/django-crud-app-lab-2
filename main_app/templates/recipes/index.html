@@ -11,19 +11,21 @@
 <section class="card-container">
   {% for recipe in recipes %}
     <div class="card">
-      <div class="card-content">
-        <div class="card-img-container">
-          <img
+      <a href="/recipes/{{recipe.id}}">
+        <div class="card-content">
+          <div class="card-img-container">
+            <img
             src="{% static 'images/recipe-image.svg' %}"
             alt="Recipe image"
-          />
+            />
+          </div>
+          <h2 class="card-title">{{ recipe.name }}</h2>
+          <p>{{ recipe.description }}</p>
+          <p><small>Preparation time: {{ recipe.prep_time }} minutes</small></p>
+          <p><small>Cooking time: {{ recipe.cook_time }} minutes</small></p>
+          <p><small>Servings: {{ recipe.servings }}</small></p>
         </div>
-        <h2 class="card-title">{{ recipe.name }}</h2>
-        <p>{{ recipe.description }}</p>
-        <p><small>Preparation time: {{ recipe.prep_time }} minutes</small></p>
-        <p><small>Cooking time: {{ recipe.cook_time }} minutes</small></p>
-        <p><small>Servings: {{ recipe.servings }}</small></p>
-      </div>
+      </a>
     </div>
   {% endfor %}
 </section>
