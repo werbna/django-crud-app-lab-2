@@ -6,10 +6,10 @@ def user_directory_path(instance, filename):
 		# file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
 		return 'user_{0}/{1}'.format(instance.user.id, filename)
 
-COMMENTS = (
-    ('R', 'Recommended'),
-    ('NR', 'Not Recommended'),
-    ('N', 'Neutral')
+COMMENTS_RECOMMEND = (
+    ('D', 'Not Recommended'),
+    ('N', 'Neutral'),
+    ('R', 'Recommended')
 )
 
 class Recipe(models.Model):
@@ -20,10 +20,10 @@ class Recipe(models.Model):
     cook_time = models.DurationField()
     instructions = models.TextField()
     servings = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     imageurl = models.URLField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.name
@@ -33,16 +33,21 @@ class Recipe(models.Model):
     
     
 class Comment(models.Model):
-    text = models.TextField()
-    Comment = models.CharField(
-        max_length=2,
-        choices=COMMENTS,
-        default=COMMENTS[0][0]
+    recommended = models.CharField(
+        max_length=1,
+        choices=COMMENTS_RECOMMEND,
+        default=COMMENTS_RECOMMEND[0][0]
     )
+    text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Comment by {self.user.username} on {self.recipe.name}'
+      
+    def get_absolute_url(self):
+        return reverse("comment_detail", kwargs={"pk": self.pk})
+    
