@@ -21,28 +21,33 @@
   <div class='recipe-actions'>
     <a href="{% url 'recipe_update' recipe.id  %}" class='btn warn'>Edit</a>
     <a href="{% url 'recipe_delete' recipe.id  %}" class='btn danger'>Delete</a>
-
-
   </div>
-  <div class="comments-section">
-    <section class="comments">
-      <div class="subsection-title">
-        <h2>Comments</h2>
-      </div>
-      <ul>
-        {% for comment in recipe.comments.all %}
-          <li>
-            <p><strong>{{ comment.user.username }}:</strong> {{ comment.text }}</p>
-            <p><small>{{ comment.created_at }}</small></p>
-          </li>
-        {% endfor %}
-      </ul>
-      <form method="POST" action="{% url 'add_comment' recipe.id %}">
-        {% csrf_token %}
-        <textarea name="comment_text" rows="4" placeholder="Add a comment..."></textarea>
-        <button type="submit" class="btn">Comment</button>
-      </form>
-    </section>
+
+    <div class="comments-section">
+      <section>
+        <form 
+        method="post" 
+        action='{% url "comment_create" recipe.id %}'
+        class="subsection-content" 
+        autocomplete="off">
+          {% csrf_token %} 
+          {{ comment_form.as_p }}
+          <button type="submit" class="btn submit">Add Comment</button>
+        </form>
+      </section>
+      <section class="comments">
+          <div class="subsection-title">
+              <h2>Comments</h2>
+          </div>
+          <ul>
+              {% for comment in recipe.comment_set.all %}
+                  <li>
+                      <p>{{ comment.text }}</p>
+                      <p><small>{{ comment.created_at }}</small></p>
+                  </li>
+              {% endfor %}
+          </ul>
+      </section>
   </div>
 
 {% endblock %}

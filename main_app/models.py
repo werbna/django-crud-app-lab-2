@@ -23,7 +23,7 @@ class Recipe(models.Model):
     imageurl = models.URLField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.name
@@ -36,17 +36,17 @@ class Comment(models.Model):
     recommended = models.CharField(
         max_length=1,
         choices=COMMENTS_RECOMMEND,
-        default=COMMENTS_RECOMMEND[0][0]
+        default=COMMENTS_RECOMMEND[1][0]
     )
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Comment by {self.user.username} on {self.recipe.name}'
+        return f'Comment left on {self.recipe.name}'
       
     def get_absolute_url(self):
         return reverse("comment_detail", kwargs={"pk": self.pk})

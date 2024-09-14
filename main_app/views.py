@@ -1,6 +1,7 @@
-from django.shortcuts import render # type: ignore
+from django.shortcuts import render, redirect # type: ignore
 from django.views.generic.edit import CreateView, UpdateView, DeleteView # type: ignore
 from .models import Recipe, Comment # type: ignore
+from .forms import CommentForm # type: ignore
 
 # Create your views here.
 def home(req):
@@ -15,7 +16,11 @@ def recipes_index(req):
   
 def recipe_detail(req, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
-    return render(req, 'recipes/detail.html', {'recipe': recipe})
+    comment_form = CommentForm()
+    return render(req, 'recipes/detail.html', {
+      'recipe': recipe, 
+      'comment_form': comment_form
+    })
   
 class RecipeCreate(CreateView):
     model = Recipe
@@ -23,7 +28,7 @@ class RecipeCreate(CreateView):
     success_url = '/recipes/'
     
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        # form.instance.user = self.request.user
         return super().form_valid(form)
 
 class RecipeUpdate(UpdateView):
@@ -34,19 +39,13 @@ class RecipeDelete(DeleteView):
     model = Recipe
     success_url = '/recipes/'
     
-class CommentCreate(CreateView):
-    model = Comment
-    fields = ['comment', 'text']
-    success_url = '/recipes/'
+def add_comment(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    form = CommentForm(request.POST)
     
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-      
-def add_comment(req, recipe_id):
-    form = CommentForm(req.POST)
     if form.is_valid():
         new_comment = form.save(commit=False)
-        new_comment.recipe_id = recipe_id
-        new_comment.save()
-    success_url = '/recipes/<int:recipe_id>/'
+        new_comment.recipe = recipe
+        new_comment.user = request.user
+        new_comment.save() 
+    return redirect('recipe_detail', recipe_id=recipe_id)
