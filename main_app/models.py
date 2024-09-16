@@ -29,7 +29,7 @@ class Recipe(models.Model):
     
     def __str__(self):
         return self.name
-      
+    
     def get_absolute_url(self):
         return reverse('recipe_detail', kwargs={'recipe_id': self.id})
     
@@ -49,7 +49,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment left on {self.recipe.name}'
-      
+    
     def get_absolute_url(self):
         return reverse("comment_detail", kwargs={"pk": self.pk})
     
