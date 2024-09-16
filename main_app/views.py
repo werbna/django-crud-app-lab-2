@@ -10,19 +10,19 @@ class home(LoginView):
 
 def about(req):
     return render(req, 'about.html')
-  
+
 def recipes_index(req):
     recipes = Recipe.objects.all()
     return render(req, 'recipes/index.html', {'recipes': recipes})
-  
+
 def recipe_detail(req, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     comment_form = CommentForm()
     return render(req, 'recipes/detail.html', {
-      'recipe': recipe, 
-      'comment_form': comment_form
+    'recipe': recipe, 
+    'comment_form': comment_form
     })
-  
+
 class RecipeCreate(CreateView):
     model = Recipe
     fields = '__all__'
