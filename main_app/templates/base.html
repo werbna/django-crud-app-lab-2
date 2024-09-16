@@ -17,9 +17,14 @@
         </a>
       </div>
       <nav>
+        {% if user.is_authenticated %}
           <li><a href="{% url 'recipes_index' %}">All Recipes</a></li>
           <li><a href="{% url 'recipe_create' %}">Add a Recipe</a></li>
           <li><a href="{% url 'about' %}">About</a></li>
+        {% else %}
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'home' %}">Login</a></li>
+        {% endif %}
         </ul>
       </nav>
     </header>
