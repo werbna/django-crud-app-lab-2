@@ -42,7 +42,9 @@
           <ul>
               {% for comment in recipe.comment_set.all %}
                   <li>
+                    <p><small>{{ comment.user }}</small></p>
                       <p>{{ comment.text }}</p>
+
                       <p><small>{{ comment.created_at }}</small></p>
                   </li>
               {% endfor %}
