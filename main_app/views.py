@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect # type: ignore
 from django.views.generic.edit import CreateView, UpdateView, DeleteView # type: ignore
 from .models import Recipe, Comment # type: ignore
 from .forms import CommentForm # type: ignore
+from django.contrib.auth.views import LoginView # type: ignore
 
 # Create your views here.
-def home(req):
-    return render(req, 'home.html')
-  
+class home(LoginView):
+    template_name = 'home.html'
+
 def about(req):
     return render(req, 'about.html')
   

@@ -1,6 +1,8 @@
 from django.db import models # type: ignore
 from django.contrib.auth.models import User # type: ignore
 from django.urls.base import reverse # type: ignore
+from datetime import datetime # type: ignore
+from django.contrib.auth.models import User # type: ignore
 
 def user_directory_path(instance, filename):
 		# file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
@@ -23,7 +25,7 @@ class Recipe(models.Model):
     imageurl = models.URLField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.name
@@ -42,7 +44,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
     def __str__(self):
